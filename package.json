@@ -9,7 +9,7 @@
     "htmlparser": "~1.7.6",
     "request": "~2.14.0",
     "JSONPath": "~0.9.1",
-    "string": "~1.2.1"
+    "ent": "0.0.5"
   },
   "repository": {
     "type": "git",

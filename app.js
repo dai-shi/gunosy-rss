@@ -29,7 +29,7 @@ var request = require('request');
 var htmlparser = require('htmlparser');
 var jsonpath = require('JSONPath').eval;
 var rss = require('rss');
-var S = require('string');
+var ent = require('ent');
 
 var app = express();
 app.use(express.logger());
@@ -61,7 +61,7 @@ function generate_rss(req, gunosy_id, callback) {
         var entry_summary = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-summary")]');
         feed.item({
           title: jsonpath(entry_title, '$..children[?(@.type=="text")].data'),
-          url: S(jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href')).decodeHTMLEntities().s,
+          url: ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href')),
           description: jsonpath(entry_summary, '$..children[?(@.type=="text")].data')
         });
       });
