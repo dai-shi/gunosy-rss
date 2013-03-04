@@ -1,0 +1,23 @@
+{
+  "name": "gunosy-rss",
+  "description": "Gunosy RSS/Atom feed web service by Node.js",
+  "version": "0.1.0",
+  "author": "Daishi Kato <daishi@axlight.com>",
+  "dependencies": {
+    "express": "~3.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dai-shi/gunosy-rss.git"
+  },
+  "keywords": [
+    "gunosy",
+    "feed",
+    "rss",
+    "atom"
+  ],
+  "license": "BSD",
+  "engines": {
+    "node": ">=0.6.19"
+  }
+}
