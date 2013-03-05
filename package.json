@@ -1,6 +1,6 @@
 {
   "name": "gunosy-rss",
-  "description": "Gunosy RSS/Atom feed web service by Node.js",
+  "description": "Gunosy RSS feed web service by Node.js",
   "version": "0.1.0",
   "author": "Daishi Kato <daishi@axlight.com>",
   "dependencies": {
