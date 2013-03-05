@@ -13,7 +13,7 @@ Simply use the following link for RSS feed.
 
 You need to replace `<gunosy_id>` with a proper one.
 
-日本語のページは[こちら](http://dai-shi.github.com/gunosy-rss/)
+Japanese page is [here](http://dai-shi.github.com/gunosy-rss/).
 
 
 Limitations
