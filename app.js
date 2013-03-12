@@ -22,7 +22,8 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*jshint es5:true */
+/* jshint es5: true */
+/* jshint evil: true */
 
 var express = require('express');
 var request = require('request');
@@ -76,7 +77,7 @@ app.get('/', function(req, res) {
   res.redirect('http://dai-shi.github.com/gunosy-rss/');
 });
 
-app.get(new RegExp('^/(.+)\.rss$'), function(req, res) {
+app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var gunosy_id = req.params[0];
   generate_rss(req, gunosy_id, function(err, result) {
     if (err) {
