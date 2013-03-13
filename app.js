@@ -36,11 +36,15 @@ var app = express();
 app.use(express.logger());
 
 function generate_rss(req, gunosy_id, callback) {
+  var headers = {
+    'User-Agent': 'Mozilla/5.0'
+  };
+  if (req.query.gunosy_session) {
+    headers.cookie = '_gunosy_session=' + req.query.gunosy_session;
+  }
   request({
     url: 'http://gunosy.com/' + gunosy_id,
-    headers: {
-      'User-Agent': 'Mozilla/5.0'
-    }
+    headers: headers
   }, function(err, res, body) {
     if (err) {
       callback(err);
@@ -54,15 +58,19 @@ function generate_rss(req, gunosy_id, callback) {
       var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-content")]');
       var feed = new rss({
         title: 'Gunosy Summary of ' + gunosy_id,
-        feed_url: req.url,
+        feed_url: 'http://gunosy-rss.herokuapp.com/' + gunosy_id + '.rss',
         site_url: 'http://gunosy.com/' + gunosy_id
       });
       entries.forEach(function(entry) {
         var entry_title = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h1" && @.attribs.class=="entry-title")]');
         var entry_summary = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-summary")]');
+        var item_url = ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href'));
+        if (item_url.lastIndexOf('/redirect?', 0) === 0) {
+          item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
+        }
         feed.item({
           title: jsonpath(entry_title, '$..children[?(@.type=="text")].data'),
-          url: ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href')),
+          url: item_url,
           description: jsonpath(entry_summary, '$..children[?(@.type=="text")].data')
         });
       });
