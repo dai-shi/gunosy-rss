@@ -38,7 +38,7 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h2>Gunosy RSSフィード 生成Webサービス</h2>
+        <h1>Gunosy RSSフィード 生成Webサービス</h1>
 
 <p>あなたのGunosyをRSSリーダーで読みたいと思ったことはないですか？</p>
 
@@ -59,6 +59,18 @@
 <p>ただし、あなたのGunosyページが公開設定になっていないと利用できません。</p>
 
 <p>本サービスは非公式サービスです。本家Gunosyとは何ら関係ありません。</p>
+
+<h2>上級者向け</h2>
+
+<pre><code>http://gunosy-rss.herokuapp.com/&lt;gunosyid&gt;.rss?u=&lt;uid&gt;&amp;gunosy_session=&lt;sessionid&gt;
+</code></pre>
+
+<p>とすると、Gunosyのサイトと同じようにリダイレクトリンクを出力してくれます。
+本家Gunosyが心配している学習ができなくなることが回避できるでしょう。お使いのRSSリーダーにもよりますが。</p>
+
+<p><code>&lt;sessionid&gt;</code>はブラウザに保存されているクッキーです。_gunosy_sessionという名前です。URLに貼り付ける時は、URLエンコードする必要があります。また、本家Gunosy側でのセッションの有効期間は不明です。</p>
+
+<p><code>&lt;uid&gt;</code>はおそらく本家Gunosy内部で使われるユーザIDでしょうか。メール配信した際のリンクに含まれています。</p>
       </section>
 
     </div>
