@@ -77,8 +77,8 @@ function generate_rss(req, gunosy_id, callback) {
 
         // creating item description
         var item_description = jsonpath(entry_summary, '$..children[?(@.type=="text")].data');
-        if (entry_figure) {
-          var figure_url = ent.decode('' + jsonpath(entry_figure, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src'));
+        var figure_url = ent.decode('' + jsonpath(entry_figure, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src'));
+        if (figure_url) {
           item_description = '<img src="' + figure_url + '" /><p>' + item_description + '</p>';
         }
 
