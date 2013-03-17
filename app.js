@@ -73,7 +73,15 @@ function generate_rss(req, gunosy_id, callback) {
         var item_url = ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href'));
         console.log('item_url', item_url);
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
-          item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
+          if (req.query.u) {
+            item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
+          } else {
+            // No idea why getting a redirect link, this is a workaround.
+            var match = item_url.match(/&url=(.*)/);
+            if (match) {
+              item_url = ent.decode(match[1]);
+            }
+          }
         }
 
         // creating item description
