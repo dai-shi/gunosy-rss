@@ -77,7 +77,7 @@ function generate_rss(req, gunosy_id, callback) {
           if (req.query.u) {
             item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
           } else {
-            // No idea why getting a redirect link, this is a workaround.
+            // decoding a redirect link, just in case.
             var match = item_url.match(/&url=(.*)/);
             if (match) {
               item_url = decodeURIComponent(match[1]);
