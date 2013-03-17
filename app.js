@@ -64,14 +64,28 @@ function generate_rss(req, gunosy_id, callback) {
       entries.forEach(function(entry) {
         var entry_title = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h1" && @.attribs.class=="entry-title")]');
         var entry_summary = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-summary")]');
+        var entry_figure = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="figure" && @.attribs.class=="entry-figure")]');
+
+        // creating item title
+        var item_title = jsonpath(entry_title, '$..children[?(@.type=="text")].data');
+
+        // creating item url
         var item_url = ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href'));
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
           item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
         }
+
+        // creating item description
+        var item_description = jsonpath(entry_summary, '$..children[?(@.type=="text")].data');
+        if (entry_figure) {
+          var figure_url = ent.decode('' + jsonpath(entry_figure, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src'));
+          item_description = '<img src="' + figure_url + '" /><p>' + item_description + '</p>';
+        }
+
         feed.item({
-          title: jsonpath(entry_title, '$..children[?(@.type=="text")].data'),
+          title: item_title,
           url: item_url,
-          description: jsonpath(entry_summary, '$..children[?(@.type=="text")].data')
+          description: item_description
         });
       });
       callback(null, feed.xml());
