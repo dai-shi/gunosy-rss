@@ -79,7 +79,7 @@ function generate_rss(req, gunosy_id, callback) {
             // No idea why getting a redirect link, this is a workaround.
             var match = item_url.match(/&url=(.*)/);
             if (match) {
-              item_url = ent.decode(match[1]);
+              item_url = decodeURIComponent(match[1]);
             }
           }
         }
