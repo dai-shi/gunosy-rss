@@ -71,6 +71,7 @@ function generate_rss(req, gunosy_id, callback) {
 
         // creating item url
         var item_url = ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href'));
+        console.log('item_url', item_url);
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
           item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
         }
