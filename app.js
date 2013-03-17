@@ -37,6 +37,7 @@ app.use(express.logger());
 
 function generate_rss(req, gunosy_id, callback) {
   var headers = {
+    'Connection': 'close',
     'User-Agent': 'Mozilla/5.0'
   };
   if (req.query.gunosy_session) {
