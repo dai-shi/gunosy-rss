@@ -1,0 +1,58 @@
+!!!
+html(ng-app="ConfigModule", class="ng-app:ConfigModule")#ng-app
+  head
+    meta(charset="utf-8")
+    meta(content="chrome=1", http-equiv="X-UA-Compatible")
+    title Gunosy RSS config
+    link(href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css", rel="stylesheet")
+    link(href="//dai-shi.github.com/gunosy-rss/stylesheets/styles.css", rel="stylesheet")
+    link(href="//dai-shi.github.com/gunosy-rss/stylesheets/pygment_trac.css", rel="stylesheet")
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js")
+    script(src="//dai-shi.github.com/gunosy-rss/javascripts/respond.js")
+    script(src="js/config.js")
+    //if lt IE 9
+      script(src="//html5shiv.googlecode.com/svn/trunk/html5.js")
+    //if lt IE 8]
+      link(rel="stylesheet", href="//dai-shi.github.com/gunosy-rss/stylesheets/ie.css")
+    meta(content="width=device-width, initial-scale=1, user-scalable=no", name="viewport")
+  body
+    #header
+      nav
+        li.fork
+          a(href="//dai-shi.github.com/gunosy-rss/") Back to Top Page
+    .wrapper
+      section
+        #title
+          h1 Gunosy RSS 設定ページ
+          p GunosyをRSSリーダーで読もう
+          hr
+        h1 自分専用のGunosy RSSのリンクを生成する
+        p これで生成されたRSSリンクはGunosyのリダイレクトリンクを含みます。すなわち、生成されたRSSリンクは他人と共有すべきではありません。
+        form
+          fieldset
+            label Gunosyのユーザ名を入力
+            .mesg Gunosyのプロフィールのユーザ情報に表示されているユーザ名を入力してください。
+            .row-fluid
+              input(type="text", placeholder="ユーザ名を入力", ng-model="gunosy_id").span3
+            br
+            label Gunosyのクッキーを入力
+            .mesg Gunosyにログインした状態でブラウザの_gunosy_sessionというクッキーをコピー＆ペーストしてください。
+            .row-fluid
+              input(type="text", placeholder="クッキーをペースト", ng-model="gunosy_session").span11
+            br
+            label ユーザIDを入力
+            .mesg Gunosyのメール配信のリダイレクトリンクに含まれる&amp;u=...の部分の値を入力してください。
+            .row-fluid
+              input(type="text", placeholder="値を入力", ng-model="gunosy_uid").span2
+            br
+            button(ng-click="rss_link = 'http://gunosy-rss.herokuapp.com/'+gunosy_id+'.rss?u='+gunosy_uid+'&gunosy_session='+encodeURIComponent(gunosy_session)").btn.btn-success RSSリンクを生成する
+        br
+        form
+          label 生成されたRSSリンク
+          .row-fluid
+            input(type="text", ng-model="rss_link", readonly="readonly").span12
+
+    //if !IE
+      script fixScale(document);
+

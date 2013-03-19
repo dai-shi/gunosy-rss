@@ -26,6 +26,7 @@
 /* jshint evil: true */
 
 var express = require('express');
+var path = require('path');
 var request = require('request');
 var htmlparser = require('htmlparser');
 var jsonpath = require('JSONPath').eval;
@@ -33,7 +34,12 @@ var rss = require('rss');
 var ent = require('ent');
 
 var app = express();
-app.use(express.logger());
+app.configure(function() {
+  app.use(express.logger());
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
+});
+
 
 function generate_rss(req, gunosy_id, callback) {
   var headers = {
@@ -122,5 +128,11 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   });
 });
 
+app.get(new RegExp('^/static/(.+)\\.html$'), function(req, res) {
+  var view_name = req.params[0];
+  res.render(view_name);
+});
+
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.listen(process.env.PORT || 5000);
