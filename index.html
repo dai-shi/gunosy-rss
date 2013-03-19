@@ -38,9 +38,28 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h1>Gunosy RSSフィード 生成Webサービス</h1>
+        <h1>Gunosy RSSフィード生成Webサービス</h1>
 
 <p>あなたのGunosyをRSSリーダーで読みたいと思ったことはないですか？</p>
+
+<p>RSSリーダに登録するリンクを生成する方法は２つあります。
+１つは自分専用のRSSリンクを生成する方法、もう１つは公開用のRSSリンクを生成する方法です。</p>
+
+<h2>自分専用のRSSリンクを生成する方法</h2>
+
+<p>この方法を用いると、GunosyをRSS化してもちゃんとGunosyの学習ができるでしょう。
+ただし、ブラウザーのクッキーの知識が必要です。あと、URLを分解して読む知識も必要です。</p>
+
+<p><a href="http://gunosy-rss.herokuapp.com/static/config.html">Gunosy RSS 設定ページ</a></p>
+
+<p>上記のページからRSSリンクを生成して、RSSリーダーに登録するだけです。</p>
+
+<p>注意事項</p>
+
+<ul>
+<li>すべて読む系のRSSリーダーを使った場合は、全部クリックしたことになってしまいます</li>
+<li>Gunosyのセッションの有効期限は不明です（セッションが切れたら、メール通知するような機能が必要ですか？）</li>
+</ul><h2>公開用のRSSリンクを生成する方法</h2>
 
 <p>使い方はとても簡単！</p>
 
@@ -56,26 +75,12 @@
 
 <p>をRSSリーダーに登録するだけです。</p>
 
-<p>ただし、あなたのGunosyページの公開設定が一般公開になっていないと利用できません。</p>
+<p>注意事項</p>
 
-<p>本サービスは非公式サービスです。本家Gunosyとは何ら関係ありません。</p>
-
-<hr><h2>上級者向け</h2>
-
-<p>URLを、</p>
-
-<pre><code>http://gunosy-rss.herokuapp.com/&lt;gunosyid&gt;.rss?u=&lt;uid&gt;&amp;gunosy_session=&lt;sessionid&gt;
-</code></pre>
-
-<p>のようにすると、Gunosyのサイトと同じようにリダイレクトリンクを出力してくれます。
-本家Gunosyが心配している学習ができなくなることが回避できるでしょう。お使いのRSSリーダーにもよりますが。
-また、この場合Gunosyページが非公開でも対応できるでしょう。</p>
-
-<p><code>&lt;sessionid&gt;</code>はブラウザに保存されているクッキーです。_gunosy_sessionという名前です。URLに貼り付ける時は、URLエンコードする必要があります。手動でURLエンコードする場合は"%"を"%25"に置換にすればOKのようです。また、本家Gunosy側でのセッションの有効期間は不明です。</p>
-
-<p><code>&lt;uid&gt;</code>はおそらく本家Gunosy内部で使われるユーザIDでしょうか。メール配信した際のリンクに含まれています。</p>
-
-<p>ご利用は各個人の責任のもとでお願いします。</p>
+<ul>
+<li>あなたのGunosyページの公開設定が一般公開になっていないと利用できません</li>
+</ul><hr><p>本サービスは非公式サービスです。本家Gunosyとは何ら関係はありません。<br>
+本サービスは無保証です。ご利用は各個人の責任のもとでお願いします。</p>
       </section>
 
     </div>
