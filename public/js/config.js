@@ -2,6 +2,6 @@
 
 var configModule = angular.module('ConfigModule', []);
 
-configModule.run(function($rootScope) {
+configModule.run(['$rootScope', function($rootScope) {
   $rootScope.encodeURIComponent = encodeURIComponent;
-});
+}]);
