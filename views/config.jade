@@ -46,7 +46,7 @@ html(ng-app="ConfigModule", class="ng-app:ConfigModule")#ng-app
             .row-fluid
               input(type="text", placeholder="値を入力", ng-model="gunosy_uid").span2
             br
-            button(ng-click="rss_link = 'http://gunosy-rss.herokuapp.com/'+gunosy_id+'.rss?u='+gunosy_uid+'&gunosy_session='+encodeURIComponent(gunosy_session)").btn.btn-success RSSリンクを生成する
+            button(ng-click="rss_link = '#{site_prefix}'+gunosy_id+'.rss?u='+gunosy_uid+'&gunosy_session='+encodeURIComponent(gunosy_session)").btn.btn-success RSSリンクを生成する
         br
         form
           label 生成されたRSSリンク

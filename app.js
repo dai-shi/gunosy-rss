@@ -33,6 +33,8 @@ var jsonpath = require('JSONPath').eval;
 var rss = require('rss');
 var ent = require('ent');
 
+var site_prefix = process.env.SITE_PREFIX || 'http://gunosy-rss.herokuapp.com/';
+
 var app = express();
 app.configure(function() {
   app.use(express.logger());
@@ -66,7 +68,7 @@ function generate_rss(req, gunosy_id, callback) {
       var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-content")]');
       var feed = new rss({
         title: 'Gunosy Summary of ' + gunosy_id,
-        feed_url: 'http://gunosy-rss.herokuapp.com/' + gunosy_id + '.rss',
+        feed_url: site_prefix + gunosy_id + '.rss',
         site_url: 'http://gunosy.com/' + gunosy_id
       });
       entries.forEach(function(entry) {
@@ -130,7 +132,9 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
 
 app.get(new RegExp('^/static/(.+)\\.html$'), function(req, res) {
   var view_name = req.params[0];
-  res.render(view_name);
+  res.render(view_name, {
+    site_prefix: site_prefix
+  });
 });
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
