@@ -127,6 +127,7 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
       console.log('failed in generate_rss', err);
       res.send(500, 'failed generating rss');
     } else {
+      res.header('Last-Modified', new Date().toUTCString());
       res.send(result);
     }
   });
