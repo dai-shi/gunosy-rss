@@ -44,6 +44,13 @@ app.configure(function() {
   app.set('view engine', 'jade');
 });
 
+function getFirst(array) {
+  if (Array.isArray(array)) {
+    return array[0];
+  } else {
+    return array;
+  }
+}
 
 function generate_rss(req, gunosy_id, callback) {
   var headers = {
@@ -67,22 +74,21 @@ function generate_rss(req, gunosy_id, callback) {
         callback(err);
         return;
       }
-      var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-content")]');
+      var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="article")]');
       var feed = new rss({
         title: 'Gunosy Summary of ' + gunosy_id,
         feed_url: site_prefix + gunosy_id + '.rss',
         site_url: 'http://gunosy.com/' + gunosy_id
       });
       entries.forEach(function(entry) {
-        var entry_title = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h1" && @.attribs.class=="entry-title")]');
-        var entry_summary = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="entry-summary")]');
-        var entry_figure = jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="figure" && @.attribs.class=="entry-figure")]');
+        var entry_title = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h1")]'));
+        var entry_summary = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="p")]'));
 
         // creating item title
         var item_title = jsonpath(entry_title, '$..children[?(@.type=="text")].data');
 
         // creating item url
-        var item_url = ent.decode('' + jsonpath(entry_title, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href'));
+        var item_url = ent.decode('' + getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href')));
         //console.log('item_url', item_url);
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
           if (req.query.u) {
@@ -98,7 +104,7 @@ function generate_rss(req, gunosy_id, callback) {
 
         // creating item description
         var item_description = jsonpath(entry_summary, '$..children[?(@.type=="text")].data');
-        var figure_url = ent.decode('' + jsonpath(entry_figure, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src'));
+        var figure_url = ent.decode('' + getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src')));
         if (figure_url) {
           item_description = '<img src="' + figure_url + '" /><p>' + item_description + '</p>';
         }
