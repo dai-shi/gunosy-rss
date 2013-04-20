@@ -52,6 +52,14 @@ function getFirst(array) {
   }
 }
 
+function getLast(array) {
+  if (Array.isArray(array)) {
+    return array[array.length - 1];
+  } else {
+    return array;
+  }
+}
+
 function generate_rss(req, gunosy_id, callback) {
   var headers = {
     'User-Agent': 'Mozilla/5.0'
@@ -88,7 +96,7 @@ function generate_rss(req, gunosy_id, callback) {
         var item_title = jsonpath(entry_title, '$..children[?(@.type=="text")].data');
 
         // creating item url
-        var item_url = ent.decode('' + getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="a")].attribs.href')));
+        var item_url = ent.decode('' + getLast(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="a" && @.attribs.target=="_blank")].attribs.href')));
         //console.log('item_url', item_url);
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
           if (req.query.u) {
