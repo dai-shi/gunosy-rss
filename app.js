@@ -66,8 +66,9 @@ function generate_rss(req, gunosy_id, callback) {
   };
   if (req.query.gunosy_session) {
     headers.cookie = '_gunosy_session=' + req.query.gunosy_session;
-  } else {
-    headers.cookie = '_gunosy_session=empty';
+  }
+  if (req.query.user_token) {
+    headers.cookie = 'remember_user_token=' + req.query.user_token;
   }
   request({
     url: 'http://gunosy.com/' + gunosy_id,
