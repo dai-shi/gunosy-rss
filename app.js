@@ -89,7 +89,7 @@ function generate_rss(req, gunosy_id, callback) {
         site_url: 'http://gunosy.com/' + gunosy_id
       });
       entries.forEach(function(entry) {
-        var entry_title = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h1")]'));
+        var entry_title = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h2")]'));
         var entry_summary = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="p")]'));
 
         // creating item title
@@ -97,7 +97,6 @@ function generate_rss(req, gunosy_id, callback) {
 
         // creating item url
         var item_url = ent.decode('' + getLast(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="a" && @.attribs.target=="_blank")].attribs.href')));
-        //console.log('item_url', item_url);
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
           if (req.query.u) {
             item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
