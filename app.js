@@ -140,13 +140,13 @@ app.get('/', function(req, res) {
 var processing = false;
 app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var gunosy_id = req.params[0];
-  console.log('checking processing for ', gunosy_id, ' : ', processing);
   if (processing) {
     res.header('Retry-After', Math.floor(Math.random() * 3600));
     res.send(503, 'busy now, retry later');
   } else {
     processing = true;
     generate_rss(req, gunosy_id, function(err, result) {
+      processing = false;
       if (err) {
         console.log('failed in generate_rss', err);
         res.send(500, 'failed generating rss');
@@ -155,7 +155,6 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
         res.header('Last-Modified', new Date().toUTCString());
         res.send(result);
       }
-      processing = false;
     });
   }
 });
