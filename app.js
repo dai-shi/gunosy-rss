@@ -59,6 +59,29 @@ function getLast(array) {
   }
 }
 
+var rss_cache = [];
+
+function get_cache(cache_id) {
+  for (var i = 0; i < rss_cache.length; i++) {
+    if (rss_cache[i].cache_id === cache_id) {
+      return rss_cache[i];
+    }
+  }
+  return null;
+}
+
+function add_cache(cache_id, data, created) {
+  rss_cache.unshift({
+    cache_id: cache_id,
+    data: data,
+    created: created
+  });
+  if (rss_cache.length > 100) {
+    rss_cache.pop();
+  }
+}
+
+
 function generate_rss(req, gunosy_id, callback) {
   var headers = {
     'User-Agent': 'Mozilla/5.0'
@@ -139,13 +162,24 @@ app.get('/', function(req, res) {
 
 app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var gunosy_id = req.params[0];
+  var cache_id = 'cache:' + gunosy_id + ':' + (req.query.gunosy_session || 'empty');
+  var cache = get_cache(cache_id);
+  if (cache) {
+    res.header('Last-Modified', cache.created.toUTCString());
+    res.send(cache.data);
+  }
   generate_rss(req, gunosy_id, function(err, result) {
     if (err) {
       console.log('failed in generate_rss', err);
-      res.send(500, 'failed generating rss');
+      if (!cache) {
+        res.send(500, 'failed generating rss');
+      }
     } else {
-      res.header('Last-Modified', new Date().toUTCString());
-      res.send(result);
+      if (!cache) {
+        res.header('Last-Modified', new Date().toUTCString());
+        res.send(result);
+      }
+      add_cache(cache_id, result, new Date());
     }
   });
 });
