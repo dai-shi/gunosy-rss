@@ -68,10 +68,12 @@ function generate_rss(req, gunosy_id, callback) {
   } else {
     headers.cookie = '_gunosy_session=empty';
   }
+  console.time('time to fetch ' + gunosy_id);
   request({
     url: 'http://gunosy.com/' + gunosy_id,
     headers: headers
   }, function(err, res, body) {
+    console.timeEnd('time to fetch ' + gunosy_id);
     if (err) {
       callback(err);
       return;
