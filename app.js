@@ -137,30 +137,26 @@ app.get('/', function(req, res) {
   res.redirect('http://dai-shi.github.io/gunosy-rss/');
 });
 
+var processing = false;
 app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var gunosy_id = req.params[0];
-  var finished = false;
-  var keep_res = function() {
-    if (!finished) {
-      res.write(' ');
-      setTimeout(keep_res, 30000);
-    }
-  };
-  generate_rss(req, gunosy_id, function(err, result) {
-    finished = true;
-    if (err) {
-      console.log('failed in generate_rss', err);
-      res.end('<error>failed generating rss</error>');
-    } else {
-      result = result.replace(/^<\?xml .*?>/, '');
-      res.end(result);
-    }
-  });
-  res.writeHead(200, {
-    'Content-Type': 'text/xml; charset=utf-8'
-  });
-  res.write('<?xml version="1.0" encoding="UTF-8"?>');
-  setTimeout(keep_res, 10000);
+  if (processing) {
+    res.header('Retry-After', Math.floor(Math.random() * 3600));
+    res.send(503, 'busy now, retry later');
+  } else {
+    processing = true;
+    generate_rss(req, gunosy_id, function(err, result) {
+      processing = false;
+      if (err) {
+        console.log('failed in generate_rss', err);
+        res.send(500, 'failed generating rss');
+      } else {
+        res.header('Content-Type', 'text/xml; charset=utf-8');
+        res.header('Last-Modified', new Date().toUTCString());
+        res.send(result);
+      }
+    });
+  }
 });
 
 app.get(new RegExp('^/static/(.+)\\.html$'), function(req, res) {
