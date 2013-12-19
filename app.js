@@ -63,17 +63,20 @@ function generate_rss(req, gunosy_id, callback) {
   var headers = {
     'User-Agent': 'Mozilla/5.0'
   };
+  var time_id;
   if (req.query.gunosy_session) {
     headers.cookie = '_gunosy_session=' + req.query.gunosy_session;
+    time_id = 'fetch-private-' + gunosy_id;
   } else {
     headers.cookie = '_gunosy_session=empty';
+    time_id = 'fetch-public-' + gunosy_id;
   }
-  console.time('time to fetch ' + gunosy_id);
+  console.time(time_id);
   request({
     url: 'http://gunosy.com/' + gunosy_id,
     headers: headers
   }, function(err, res, body) {
-    console.timeEnd('time to fetch ' + gunosy_id);
+    console.timeEnd(time_id);
     if (err) {
       callback(err);
       return;
