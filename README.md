@@ -13,12 +13,13 @@ Simply use the following link for RSS feed.
 
 You need to replace `<gunosy_id>` with a proper one.
 
-Japanese page is [here](http://dai-shi.github.com/gunosy-rss/).
+Japanese page is [here](http://dai-shi.github.io/gunosy-rss/).
 
 
 Limitations
 -----------
 
-* No cache control for RSS feed (yet).
 * Gunosy page must be public.
+* If it takes more than 30sec, an application error occurs.
+  * More efficent cache algorithm is needed.
 

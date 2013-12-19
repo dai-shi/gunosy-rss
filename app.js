@@ -157,7 +157,7 @@ function generate_rss(req, gunosy_id, callback) {
 }
 
 app.get('/', function(req, res) {
-  res.redirect('http://dai-shi.github.com/gunosy-rss/');
+  res.redirect('http://dai-shi.github.io/gunosy-rss/');
 });
 
 app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
