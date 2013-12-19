@@ -143,7 +143,7 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var keep_res = function() {
     if (!finished) {
       res.write(' ');
-      setTimeout(keep_res, 50000);
+      setTimeout(keep_res, 30000);
     }
   };
   generate_rss(req, gunosy_id, function(err, result) {
@@ -160,7 +160,7 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
     'Content-Type': 'text/xml; charset=utf-8'
   });
   res.write('<?xml version="1.0" encoding="UTF-8"?>');
-  setTimeout(keep_res, 20000);
+  setTimeout(keep_res, 10000);
 });
 
 app.get(new RegExp('^/static/(.+)\\.html$'), function(req, res) {
