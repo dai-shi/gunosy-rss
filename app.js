@@ -76,7 +76,7 @@ function add_cache(cache_id, data, created) {
     data: data,
     created: created
   });
-  if (rss_cache.length > 100) {
+  if (rss_cache.length > 10000) {
     rss_cache.pop();
   }
 }
