@@ -24,7 +24,6 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* jshint es5: true */
 /* jshint evil: true */
 
 var express = require('express');
@@ -82,7 +81,7 @@ function generate_rss(req, gunosy_id, callback) {
         callback(err);
         return;
       }
-      var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="article")]');
+      var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="cell_article")]');
       var feed = new rss({
         title: 'Gunosy Summary of ' + gunosy_id,
         feed_url: site_prefix + gunosy_id + '.rss',
@@ -90,7 +89,7 @@ function generate_rss(req, gunosy_id, callback) {
       });
       entries.forEach(function(entry) {
         var entry_title = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h2")]'));
-        var entry_summary = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="p")]'));
+        var entry_summary = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="description")]'));
 
         // creating item title
         var item_title = jsonpath(entry_title, '$..children[?(@.type=="text")].data');
