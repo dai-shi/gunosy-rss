@@ -20,6 +20,4 @@ Limitations
 -----------
 
 * Gunosy page must be public.
-* If it takes more than 30sec, an application error occurs.
-  * More efficent cache algorithm is needed.
-
+* There is rate limit control.
