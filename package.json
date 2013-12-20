@@ -4,13 +4,13 @@
   "version": "0.9.0",
   "author": "Daishi Kato <daishi@axlight.com>",
   "dependencies": {
-    "express": "~3.1.0",
+    "express": "~3.4.7",
     "rss": "0.0.4",
     "htmlparser": "~1.7.6",
     "request": "~2.14.0",
     "JSONPath": "~0.9.1",
     "ent": "0.0.5",
-    "jade": "~0.28.2"
+    "jade": "~0.35.0"
   },
   "repository": {
     "type": "git",
