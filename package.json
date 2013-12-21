@@ -24,6 +24,6 @@
   ],
   "license": "BSD",
   "engines": {
-    "node": "~0.8.21"
+    "node": "0.10.15"
   }
 }
