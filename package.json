@@ -9,7 +9,7 @@
     "htmlparser": "~1.7.6",
     "request": "~2.30.0",
     "JSONPath": "~0.9.1",
-    "ent": "~0.1.0",
+    "ent": "0.0.5",
     "jade": "~0.35.0"
   },
   "repository": {
