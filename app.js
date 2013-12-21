@@ -32,7 +32,15 @@ var request = require('request');
 var htmlparser = require('htmlparser');
 var jsonpath = require('JSONPath').eval;
 var rss = require('rss');
-var ent = require('ent');
+var _ent = require('ent');
+var ent = {
+  decode: function(x) {
+    console.time('ent.decode');
+    var y = _ent.decode(x);
+    console.timeEnd('ent.decode');
+    return y;
+  }
+};
 
 var site_prefix = process.env.SITE_PREFIX || 'http://gunosy-rss.herokuapp.com/';
 
