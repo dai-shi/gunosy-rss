@@ -32,15 +32,7 @@ var request = require('request');
 var htmlparser = require('htmlparser');
 var jsonpath = require('JSONPath').eval;
 var rss = require('rss');
-var _ent = require('ent');
-var ent = {
-  decode: function(x) {
-    console.time('ent.decode');
-    var y = _ent.decode(x);
-    console.timeEnd('ent.decode');
-    return y;
-  }
-};
+var ent = require('ent');
 
 var site_prefix = process.env.SITE_PREFIX || 'http://gunosy-rss.herokuapp.com/';
 
@@ -87,13 +79,16 @@ function generate_rss(req, gunosy_id, callback) {
         callback(err);
         return;
       }
+      console.time('time-entries-' + gunosy_id);
       var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="cell_article")]');
+      console.timeEnd('time-entries-' + gunosy_id);
       var feed = new rss({
         title: 'Gunosy Summary of ' + gunosy_id,
         feed_url: site_prefix + gunosy_id + '.rss',
         site_url: 'http://gunosy.com/' + gunosy_id
       });
       entries.forEach(function(entry) {
+        console.time('time-entry-' + gunosy_id);
         var entry_title = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h2")]'));
         var entry_summary = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="description")]'));
 
@@ -126,6 +121,7 @@ function generate_rss(req, gunosy_id, callback) {
           url: item_url,
           description: item_description
         });
+        console.timeEnd('time-entry-' + gunosy_id);
       });
       callback(null, feed.xml());
     });
