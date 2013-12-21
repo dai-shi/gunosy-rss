@@ -61,22 +61,15 @@ function getLast(array) {
 
 function generate_rss(req, gunosy_id, callback) {
   var headers = {
-    'User-Agent': 'Mozilla/5.0'
+    'User-Agent': 'Mozilla/5.0',
+    cookie: '_gunosy_session=' + (req.query.gunosy_session || 'empty')
   };
-  var time_id;
-  if (req.query.gunosy_session) {
-    headers.cookie = '_gunosy_session=' + req.query.gunosy_session;
-    time_id = 'fetch-private-' + gunosy_id;
-  } else {
-    headers.cookie = '_gunosy_session=empty';
-    time_id = 'fetch-public-' + gunosy_id;
-  }
-  console.time(time_id);
+  console.time('time-fetch-' + gunosy_id);
   request({
     url: 'http://gunosy.com/' + gunosy_id,
     headers: headers
   }, function(err, res, body) {
-    console.timeEnd(time_id);
+    console.timeEnd('time-fetch-' + gunosy_id);
     if (err) {
       callback(err);
       return;
@@ -145,7 +138,9 @@ app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
     res.send(503, 'busy now, retry later');
   } else {
     processing = true;
+    console.time('time-generate-' + gunosy_id);
     generate_rss(req, gunosy_id, function(err, result) {
+      console.timeEnd('time-generate-' + gunosy_id);
       processing = false;
       if (err) {
         console.log('failed in generate_rss', err);
