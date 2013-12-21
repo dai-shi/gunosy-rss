@@ -8,9 +8,9 @@
     "rss": "~0.2.1",
     "htmlparser": "~1.7.7",
     "request": "~2.30.0",
+    "JSONPath": "0.8.5",
     "ent": "~0.1.0",
-    "jade": "~0.35.0",
-    "dkastner-JSONPath": "~0.9.2"
+    "jade": "~0.35.0"
   },
   "repository": {
     "type": "git",
