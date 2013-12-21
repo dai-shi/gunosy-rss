@@ -32,8 +32,7 @@ var request = require('request');
 var htmlparser = require('htmlparser');
 var jsonpath = require('JSONPath').eval;
 var rss = require('rss');
-var AllHtmlEntities = require('html-entities').AllHtmlEntities;
-var entities = new AllHtmlEntities();
+var ent = require('ent');
 
 var site_prefix = process.env.SITE_PREFIX || 'http://gunosy-rss.herokuapp.com/';
 
@@ -94,7 +93,7 @@ function generate_rss(req, gunosy_id, callback) {
         var item_title = jsonpath(entry_title, '$..children[?(@.type=="text")].data');
 
         // creating item url
-        var item_url = entities.decode('' + getLast(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="a" && @.attribs.target=="_blank")].attribs.href')));
+        var item_url = ent.decode('' + getLast(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="a" && @.attribs.target=="_blank")].attribs.href')));
         if (item_url.lastIndexOf('/redirect?', 0) === 0) {
           if (req.query.u) {
             item_url = 'http://gunosy.com/redirect?u=' + req.query.u + '&' + item_url.substring(10);
@@ -109,7 +108,7 @@ function generate_rss(req, gunosy_id, callback) {
 
         // creating item description
         var item_description = jsonpath(entry_summary, '$..children[?(@.type=="text")].data');
-        var figure_url = entities.decode('' + getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src')));
+        var figure_url = ent.decode('' + getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src')));
         if (figure_url) {
           item_description = '<img src="' + figure_url + '" /><p>' + item_description + '</p>';
         }
