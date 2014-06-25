@@ -110,6 +110,8 @@ function generate_rss(req, gunosy_id, callback) {
         var item_description = jsonpath(entry_summary, '$..children[?(@.type=="text")].data');
         var figure_url = ent.decode('' + getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="img")].attribs.src')));
         if (figure_url) {
+          figure_url = figure_url.replace(/^http:\/\/imageproxy.*?\?u=(.*)/, '$1');
+          figure_url = figure_url.replace(/^(\/assets.*)/, 'http://gunosy.com$1');
           item_description = '<img src="' + figure_url + '" /><p>' + item_description + '</p>';
         }
 
