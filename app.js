@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013, Daishi Kato <daishi@axlight.com>
+  Copyright (C) 2013-2015, Daishi Kato <daishi@axlight.com>
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@ var jsonpath = require('JSONPath').eval;
 var rss = require('rss');
 var ent = require('ent');
 
-var site_prefix = process.env.SITE_PREFIX || 'http://gunosy-rss.herokuapp.com/';
+var site_prefix = process.env.SITE_PREFIX || 'http://gunosy-rss.axlight.com/';
 
 var app = express();
 app.configure(function() {
@@ -79,11 +79,24 @@ function generate_rss(req, gunosy_id, callback) {
         callback(err);
         return;
       }
+      var nextFetchDate = new Date();
+      nextFetchDate.setMinutes(0);
+      if (nextFetchDate.getHours() >= 5 && nextFetchDate.getHours() < 17) {
+        nextFetchDate.setHours(17);
+      } else {
+        if (nextFetchDate.getHours() >= 17) {
+          nextFetchDate.setTime(nextFetchDate.getTime() + 24 * 3600 * 1000);
+        }
+        nextFetchDate.setHours(5);
+      }
+      nextFetchDate.setTime(nextFetchDate.getTime() + Math.floor(Math.random() * 3600 * 1000));
+
       var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="cell_article")]');
       var feed = new rss({
         title: 'Gunosy Summary of ' + gunosy_id,
         feed_url: site_prefix + gunosy_id + '.rss',
-        site_url: 'http://gunosy.com/' + gunosy_id
+        site_url: 'http://gunosy.com/' + gunosy_id,
+        ttl: Math.floor((nextFetchDate.getTime() - Date.now()) / 60000)
       });
       entries.forEach(function(entry) {
         var entry_title = getFirst(jsonpath(entry, '$..children[?(@.type=="tag" && @.name=="h2")]'));
@@ -135,6 +148,11 @@ app.get('/', function(req, res) {
 var processing = false;
 app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var gunosy_id = req.params[0];
+  if (site_prefix.indexOf(req.hostname) === -1) {
+    res.header('Location', site_prefix + gunosy_id + '.rss');
+    res.send(301, 'please change the URL');
+    return;
+  }
   if (processing) {
     res.header('Retry-After', Math.floor(Math.random() * 3600));
     res.send(503, 'busy now, retry later');

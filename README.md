@@ -9,7 +9,7 @@ How to use
 
 Simply use the following link for RSS feed.
 
-    http://gunosy-rss.herokuapp.com/<gunosy_id>.rss
+    http://gunosy-rss.axlight.com/<gunosy_id>.rss
 
 You need to replace `<gunosy_id>` with a proper one.
 
