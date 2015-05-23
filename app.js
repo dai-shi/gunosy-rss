@@ -148,7 +148,7 @@ app.get('/', function(req, res) {
 var processing = false;
 app.get(new RegExp('^/(.+)\\.rss$'), function(req, res) {
   var gunosy_id = req.params[0];
-  console.log(req, req.headers);
+  console.log('DEBUG', req.host, req.hostname);
   /*
   if (site_prefix.indexOf(req.hostname) === -1) {
     res.header('Location', site_prefix + gunosy_id + '.rss');
