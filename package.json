@@ -3,6 +3,9 @@
   "description": "Gunosy RSS feed web service by Node.js",
   "version": "1.0.0",
   "author": "Daishi Kato <daishi@axlight.com>",
+  "scripts": {
+    "start": "env TZ=Asia/Tokyo node app.js"
+  },
   "dependencies": {
     "express": "~3.4.7",
     "rss": "~0.2.1",
@@ -24,6 +27,6 @@
   ],
   "license": "BSD",
   "engines": {
-    "node": "0.10.15"
+    "node": "0.10.37"
   }
 }

@@ -80,9 +80,6 @@ function generate_rss(req, gunosy_id, callback) {
         return;
       }
       var nextFetchDate = new Date();
-      var localOffset = nextFetchDate.getTimezoneOffset() * 60000;
-      var jstOffset = 9 * 60 * 60000;
-      nextFetchDate.setTime(nextFetchDate.getTime() + localOffset + jstOffset);
       nextFetchDate.setMinutes(0);
       if (nextFetchDate.getHours() >= 5 && nextFetchDate.getHours() < 17) {
         nextFetchDate.setHours(17);
@@ -93,7 +90,6 @@ function generate_rss(req, gunosy_id, callback) {
         nextFetchDate.setHours(5);
       }
       nextFetchDate.setTime(nextFetchDate.getTime() + Math.floor(Math.random() * 3600 * 1000));
-      nextFetchDate.setTime(nextFetchDate.getTime() - localOffset - jstOffset);
 
       var entries = jsonpath(dom, '$..children[?(@.type=="tag" && @.name=="div" && @.attribs.class=="cell_article")]');
       var feed = new rss({
